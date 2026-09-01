@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hamid Hassan | Official Website</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #080808;
+            color: white;
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 7%;
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid #222;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        .logo span {
+            color: #ff2020;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 50px;
+            background:
+                radial-gradient(circle at top right, #7d0000, transparent 35%),
+                radial-gradient(circle at bottom left, #3d2d00, transparent 30%),
+                #080808;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .youtube-icon {
+            width: 90px;
+            height: 65px;
+            background: #ff0000;
+            border-radius: 18px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+        }
+
+        .hero h1 {
+            font-size: clamp(45px, 8vw, 90px);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 span {
+            color: #ffcc00;
+        }
+
+        .hero h2 {
+            color: #ff3333;
+            font-size: clamp(20px, 4vw, 35px);
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #ddd;
+            line-height: 1.7;
+            margin-bottom: 35px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 8px;
+            transition: 0.3s;
+        }
+
+        .subscribe {
+            background: #ff0000;
+            color: white;
+        }
+
+        .subscribe:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        .learn {
+            border: 2px solid #ffcc00;
+            color: #ffcc00;
+        }
+
+        .learn:hover {
+            background: #ffcc00;
+            color: black;
+        }
+
+        /* GENERAL */
+        section {
+            padding: 90px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 50px;
+        }
+
+        .section-title span {
+            color: #ffcc00;
+        }
+
+        /* ABOUT */
+        .about {
+            background: #101010;
+        }
+
+        .about-container {
+            max-width: 1000px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .about-container p {
+            color: #ccc;
+            line-height: 1.9;
+            font-size: 18px;
+        }
+
+        /* CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #151515;
+            padding: 35px 25px;
+            text-align: center;
+            border-radius: 15px;
+            border: 1px solid #292929;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #ffcc00;
+        }
+
+        .card-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #bbb;
+            line-height: 1.6;
+        }
+
+        /* VIDEOS */
+        .videos {
+            background: #101010;
+        }
+
+        .video-box {
+            background: #181818;
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .video-box h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .video-box p {
+            color: #bbb;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            background:
+                linear-gradient(rgba(120,0,0,.7), rgba(0,0,0,.9)),
+                #111;
+        }
+
+        .cta h2 {
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            color: #ddd;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 35px 20px;
+            text-align: center;
+            background: #050505;
+            color: #999;
+        }
+
+        footer strong {
+            color: #ffcc00;
+        }
+
+        .social {
+            margin: 20px 0;
+        }
+
+        .social a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 18px;
+        }
+
+        .social a:hover {
+            color: #ff3333;
+        }
+
+        /* MOBILE */
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            nav ul {
+                gap: 12px;
+            }
+
+            nav ul li a {
+                font-size: 13px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .cta h2 {
+                font-size: 32px;
+            }
+
+            .video-box {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">
+            HAMID <span>HASSAN</span>
+        </div>
+
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#content">Content</a></li>
+            <li><a href="#videos">Videos</a></li>
+        </ul>
+    </nav>
+
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="youtube-icon">▶</div>
+
+            <h1>HAMID <span>HASSAN</span></h1>
+
+            <h2>YOUR NEW YOUTUBE DESTINATION 🚀</h2>
+
+            <p>
+                Welcome to Hamid Hassan! Discover exciting,
+                educational, motivational, informative and
+                entertaining content designed to inspire,
+                educate and entertain.
+            </p>
+
+            <a
+                href="https://youtube.com/@hamid_hassan_boss"
+                target="_blank"
+                class="btn subscribe">
+                ▶ SUBSCRIBE NOW
+            </a>
+
+            <a href="#content" class="btn learn">
+                EXPLORE CONTENT
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+
+        <h2 class="section-title">
+            ABOUT <span>HAMID HASSAN</span>
+        </h2>
+
+        <div class="about-container">
+
+            <p>
+                Hamid Hassan is a YouTube channel created to bring
+                viewers interesting ideas, useful knowledge,
+                motivation and entertainment. Our goal is to create
+                content that encourages people to learn something new,
+                think positively and explore the world around them.
+            </p>
+
+            <br>
+
+            <p>
+                Every video is an opportunity to discover something
+                valuable. Join our growing community and be part of
+                the journey.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTENT -->
+    <section id="content">
+
+        <h2 class="section-title">
+            WHAT YOU WILL <span>FIND HERE</span>
+        </h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h3>Education</h3>
+                <p>
+                    Learn useful information, interesting facts
+                    and new ideas.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💡</div>
+                <h3>Motivation</h3>
+                <p>
+                    Positive thoughts and inspiring messages
+                    to encourage you.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌍</div>
+                <h3>Explore</h3>
+                <p>
+                    Discover interesting places, people,
+                    cultures and ideas.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎬</div>
+                <h3>Entertainment</h3>
+                <p>
+                    Enjoy engaging videos, creative ideas
+                    and entertaining content.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- VIDEOS -->
+    <section class="videos" id="videos">
+
+        <h2 class="section-title">
+            LATEST <span>VIDEOS</span>
+        </h2>
+
+        <div class="video-box">
+
+            <h3>🎥 Watch Hamid Hassan on YouTube</h3>
+
+            <p>
+                Visit our YouTube channel to discover our latest
+                videos and new content.
+            </p>
+
+            <a
+                href="https://youtube.com/@hamid_hassan_boss"
+                target="_blank"
+                class="btn subscribe">
+                WATCH ON YOUTUBE ▶
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- CALL TO ACTION -->
+    <section class="cta">
+
+        <h2>LET'S GROW TOGETHER! 🚀</h2>
+
+        <p>
+            Your support means everything.
+            Subscribe, like, share and become part of the
+            Hamid Hassan journey.
+        </p>
+
+        <a
+            href="https://youtube.com/@hamid_hassan_boss"
+            target="_blank"
+            class="btn subscribe">
+            ❤️ SUBSCRIBE TO HAMID HASSAN
+        </a>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <strong>HAMID HASSAN</strong>
+
+        <div class="social">
+            <a
+                href="https://youtube.com/@hamid_hassan_boss"
+                target="_blank">
+                YouTube
+            </a>
+        </div>
+
+        <p>
+            © 2026 Hamid Hassan. All Rights Reserved.
+        </p>
+
+        <p>
+            Learn. Explore. Inspire. Enjoy.
+        </p>
+
+    </footer>
+
+</body>
+</html>
