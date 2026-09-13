@@ -1,0 +1,45 @@
+name: Restore Smart Education Tamil
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  restore-channel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore Smart Education Tamil section
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('HASSAN.html')
+          text = p.read_text(encoding='utf-8')
+          marker = 'Smart Education Tamil'
+          if marker not in text:
+              section = '''<section id="smart-education-tamil" class="reveal" style="padding-top:30px"><h2 class="title">My <span>Other Channel</span></h2><p class="lead">Visit my educational YouTube channel, Smart Education Tamil, for useful learning content.</p><div style="max-width:900px;margin:auto;padding:30px;border-radius:28px;background:linear-gradient(135deg,#10203b,#25133c);border:1px solid #00e5ff44;box-shadow:0 20px 60px #0008;text-align:center"><div style="font-size:58px;margin-bottom:12px">🎓📚</div><h3 style="font-size:32px;margin:8px 0">Smart Education Tamil</h3><p style="color:#aeb9cf;line-height:1.7">Educational videos, knowledge, school support and useful learning content in Tamil.</p><a class="btn primary" href="https://youtube.com/@smarteducationtamil" target="_blank" rel="noopener">▶ VISIT SMART EDUCATION TAMIL</a></div></section>'''
+              if '</main>' in text:
+                  text = text.replace('</main>', section + '</main>', 1)
+              elif '</body>' in text:
+                  text = text.replace('</body>', section + '</body>', 1)
+              else:
+                  raise SystemExit('Could not find insertion point in HASSAN.html')
+              p.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit restored channel
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add HASSAN.html
+          if git diff --cached --quiet; then
+            echo "Smart Education Tamil is already present."
+          else
+            git commit -m "Restore Smart Education Tamil channel"
+            git push
+          fi
