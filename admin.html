@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HAMID HASSAN BOSS | Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--pink:#ff2aa6;--purple:#7c4dff;--cyan:#00eaff;--gold:#ffd43b;--green:#59ff83;--bg:#050713;--muted:#cbd5e1}*{box-sizing:border-box}body{margin:0;color:#fff;font-family:Arial,sans-serif;background:radial-gradient(circle at 10% 10%,#00eaff22,transparent 25%),radial-gradient(circle at 90% 20%,#ff2aa622,transparent 25%),linear-gradient(135deg,#050713,#17052a,#041d2b);min-height:100vh}.wrap{width:min(1050px,92%);margin:auto;padding:45px 0}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:25px}.logo{font-size:21px;font-weight:1000;letter-spacing:2px;background:linear-gradient(90deg,var(--cyan),#fff,var(--pink),var(--gold));-webkit-background-clip:text;color:transparent}.btn{border:0;border-radius:24px;padding:12px 18px;font-weight:900;color:#fff;background:linear-gradient(90deg,var(--pink),var(--purple));cursor:pointer}.panel{background:linear-gradient(145deg,#10182de8,#29103be8);border:1px solid #ffffff22;border-radius:25px;padding:25px;box-shadow:0 20px 55px #0008;margin-bottom:22px}.panel h1,.panel h2{margin-top:0}.input{width:100%;padding:14px;border-radius:13px;border:1px solid #ffffff25;background:#050817;color:#fff;margin:7px 0 14px;font:inherit}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.hint{color:var(--muted);line-height:1.6;font-size:14px}.danger{background:#9d174d}.success{color:var(--green);font-weight:800}.status{margin:12px 0}.postrow{border-top:1px solid #ffffff18;padding:17px 0;display:flex;justify-content:space-between;gap:15px;align-items:center}.postrow img{width:85px;height:65px;object-fit:cover;border-radius:10px}.postinfo{flex:1}.postinfo strong{display:block}.postinfo small{color:var(--muted)}.hidden{display:none}.login{max-width:480px;margin:12vh auto}.checkbox{display:flex;align-items:center;gap:9px;margin:5px 0 18px;color:var(--muted)}@media(max-width:700px){.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.postrow{align-items:flex-start}}
+</style></head>
+<body><main class="wrap">
+<div id="login" class="panel login"><h1>🔐 Admin Login</h1><p class="hint">Private HAMID HASSAN BOSS posting dashboard.</p><input id="email" class="input" type="email" placeholder="Admin email"><input id="password" class="input" type="password" placeholder="Password"><button id="loginBtn" class="btn">Sign in</button><div id="loginStatus" class="status hint"></div></div>
+<div id="app" class="hidden"><div class="top"><div class="logo">HAMID HASSAN BOSS • ADMIN</div><div><a class="btn" href="posts.html">View posts</a> <button id="logout" class="btn">Logout</button></div></div>
+<section class="panel"><h2>➕ Create a post</h2><div class="grid"><div><label>Title</label><input id="title" class="input" placeholder="Post title"></div><div><label>Image URL</label><input id="image" class="input" placeholder="https://..."></div></div><label>Description</label><textarea id="description" class="input" rows="5" placeholder="Write your post..."></textarea><div class="grid"><div><label>YouTube URL</label><input id="youtube" class="input" placeholder="https://youtube.com/watch?v=..."></div><div><label>Link URL</label><input id="link" class="input" placeholder="https://..."></div></div><label class="checkbox"><input id="published" type="checkbox" checked> Publish immediately</label><button id="save" class="btn">Publish Post</button><div id="saveStatus" class="status"></div></section>
+<section class="panel"><h2>📝 Manage posts</h2><div id="list" class="hint">Loading…</div></section></div>
+</main>
+<script>
+const SUPABASE_URL='YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY='YOUR_SUPABASE_ANON_KEY';
+const ADMIN_EMAIL='hamidhassanmail@gmail.com';
+const configured=SUPABASE_URL.startsWith('https://')&&SUPABASE_ANON_KEY.length>20;
+let sb=null;
+const $=id=>document.getElementById(id);
+function setStatus(id,msg,ok=false){$(id).textContent=msg;$(id).className='status '+(ok?'success':'hint')}
+async function start(){if(!configured){setStatus('loginStatus','Supabase is not connected yet. Add the URL and anon key in this file.');return}sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);const {data}=await sb.auth.getSession();if(data.session)showApp(data.session.user);}
+function showApp(user){if(user.email?.toLowerCase()!==ADMIN_EMAIL.toLowerCase()){sb.auth.signOut();setStatus('loginStatus','This account is not authorized as the site administrator.');return}$('login').classList.add('hidden');$('app').classList.remove('hidden');loadPosts()}
+$('loginBtn').onclick=async()=>{if(!sb){setStatus('loginStatus','Connect Supabase first.');return}setStatus('loginStatus','Signing in…');const {data,error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error){setStatus('loginStatus',error.message);return}showApp(data.user)};
+$('logout').onclick=()=>sb.auth.signOut().then(()=>location.reload());
+$('save').onclick=async()=>{const title=$('title').value.trim();if(!title){setStatus('saveStatus','Please enter a title.');return}setStatus('saveStatus','Publishing…');const {error}=await sb.from('posts').insert({title,description:$('description').value.trim(),image_url:$('image').value.trim()||null,youtube_url:$('youtube').value.trim()||null,link_url:$('link').value.trim()||null,published:$('published').checked});if(error){setStatus('saveStatus',error.message);return}setStatus('saveStatus','Post published successfully.',true);['title','description','image','youtube','link'].forEach(id=>$(id).value='');loadPosts()};
+async function loadPosts(){const {data,error}=await sb.from('posts').select('*').order('created_at',{ascending:false});if(error){$('list').textContent='Could not load posts: '+error.message;return}if(!data?.length){$('list').textContent='No posts yet.';return}$('list').innerHTML=data.map(p=>`<div class="postrow"><div class="postinfo"><strong>${escapeHtml(p.title)}</strong><small>${p.published?'Published':'Draft'} • ${new Date(p.created_at).toLocaleString()}</small></div><button class="btn danger" onclick="removePost('${p.id}')">Delete</button></div>`).join('')}
+function escapeHtml(v){return String(v??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\':'&#92;','"':'&quot;'}[c]))}
+window.removePost=async id=>{if(!confirm('Delete this post?'))return;const {error}=await sb.from('posts').delete().eq('id',id);if(error){alert(error.message);return}loadPosts()};
+start();
+</script></body></html>
