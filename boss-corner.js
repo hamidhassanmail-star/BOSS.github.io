@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{const a=document.querySelector('.boss-corner');if(!a)return;a.innerHTML='<span class="boss-orbit boss-orbit-a"></span><span class="boss-orbit boss-orbit-b"></span><span class="boss-crown">👑</span><span class="boss-fire">🔥</span><span class="boss-label">BOSS</span>';a.setAttribute('title','HAMID HASSAN • THE BOSS');});
