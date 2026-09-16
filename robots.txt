@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hamidhassanmail-star.github.io/BOSS.github.io/sitemap.xml
