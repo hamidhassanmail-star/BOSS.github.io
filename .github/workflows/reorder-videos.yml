@@ -1,0 +1,38 @@
+name: Put My Videos Before Smart Motivation
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  reorder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move My Videos section before Smart Motivation
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          videos_start = '<section class="section" id="videos">'
+          smart_start = '<section class="section" id="smart">'
+          if videos_start in s and smart_start in s and s.index(smart_start) < s.index(videos_start):
+              a = s.index(smart_start)
+              b = s.index(videos_start)
+              # Find the end of the videos section by locating its closing section before DESIGN.
+              design_start = s.index('<section class="section" id="design">', b)
+              smart = s[a:b]
+              videos = s[b:design_start]
+              s = s[:a] + videos + smart + s[design_start:]
+              p.write_text(s, encoding='utf-8')
+      - name: Commit reordered page
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Move My Videos before Smart Motivation"
+          git push
