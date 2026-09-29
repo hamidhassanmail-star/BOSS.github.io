@@ -1,10 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-<defs>
-<radialGradient id="b" cx="30%" cy="20%"><stop offset="0" stop-color="#fff"/><stop offset=".18" stop-color="#bffbff"/><stop offset=".55" stop-color="#35dfff"/><stop offset="1" stop-color="#0879c9"/></radialGradient>
-<filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#001b3a" flood-opacity=".8"/></filter>
-</defs>
-<circle cx="32" cy="32" r="29" fill="url(#b)" stroke="#dfffff" stroke-width="2" filter="url(#s)"/>
-<ellipse cx="22" cy="18" rx="10" ry="5" fill="#fff" opacity=".72" transform="rotate(-18 22 18)"/>
-<circle cx="45" cy="43" r="3" fill="#fff" opacity=".7"/>
-<text x="32" y="37" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="900" fill="#003b66">BOSS</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><radialGradient id="f" cx="35%" cy="25%"><stop stop-color="#fff7b0"/><stop offset=".25" stop-color="#ffb300"/><stop offset=".62" stop-color="#ff4b00"/><stop offset="1" stop-color="#8b1200"/></radialGradient><filter id="g"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><circle cx="32" cy="32" r="30" fill="#180400" stroke="#ff8a00" stroke-width="2"/><path d="M12 40 Q17 20 29 25 Q35 13 42 25 Q52 20 54 40 Q43 34 36 43 L32 50 L28 43 Q20 34 12 40Z" fill="url(#f)" filter="url(#g)"/><path d="M27 28 L32 17 L37 28 L43 23 L41 33 L32 29 L23 33 L21 23Z" fill="#ffd84d"/><path d="M31 30 L40 33 L34 36 L31 42 L28 36 L22 33Z" fill="#220800"/><circle cx="36" cy="29" r="1.8" fill="#fff7a0"/><path d="M26 45 Q32 50 38 45" fill="none" stroke="#ffcf3d" stroke-width="2"/></svg>
