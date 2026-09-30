@@ -1,0 +1,68 @@
+name: Compress website graphics
+
+on:
+  push:
+    paths:
+      - "assets/*.txt"
+      - ".github/workflows/compress-graphics.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install image optimizer
+        run: npm install --no-save sharp
+
+      - name: Recompress base64 WebP graphics
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const sharp = require('sharp');
+
+          (async () => {
+            const dir = 'assets';
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.txt'));
+
+            for (const file of files) {
+              const full = path.join(dir, file);
+              const text = fs.readFileSync(full, 'utf8').trim();
+
+              let input;
+              try {
+                input = Buffer.from(text, 'base64');
+                if (input.length < 12 || input.toString('ascii', 0, 4) !== 'RIFF' || input.toString('ascii', 8, 12) !== 'WEBP') continue;
+              } catch {
+                continue;
+              }
+
+              const image = sharp(input, { animated: true });
+              const meta = await image.metadata();
+              const output = await image
+                .webp({ quality: 78, effort: 6, smartSubsample: true })
+                .toBuffer();
+
+              if (output.length < input.length) {
+                fs.writeFileSync(full, output.toString('base64'));
+                console.log(`${file}: ${input.length} -> ${output.length} bytes`);
+              } else {
+                console.log(`${file}: already smaller; unchanged`);
+              }
+            }
+          })().catch(err => { console.error(err); process.exit(1); });
+          NODE
+
+      - name: Commit optimized graphics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/*.txt
+          git diff --cached --quiet || git commit -m "Optimize website graphics"
+          git push
