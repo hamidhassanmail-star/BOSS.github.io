@@ -39,55 +39,18 @@ $('googleBtn').onclick=async()=>{
 })();
 
 $('form').onsubmit=async e=>{
- e.preventDefault();
- $('msg').textContent='';
- const email=$('email').value.trim().toLowerCase();
- const password=$('password').value;
- if(!email||password.length<6)return $('msg').textContent='Enter a valid email and a password of at least 6 characters.';
-
- if(sb){
-   $('submit').disabled=true;
-   $('submit').textContent=signup?'CREATING…':'SIGNING IN…';
-   try{
-     if(signup){
-       const name=$('name').value.trim()||'Viewer';
-       const {data,error}=await sb.auth.signUp({
-         email,password,
-         options:{data:{full_name:name,name},emailRedirectTo:location.origin+location.pathname}
-       });
-       if(error) throw error;
-       if(data.session){
-         await saveSession(data.user,'email');
-       }else{
-         $('msg').style.color='#ffd76a';
-         $('msg').textContent='Account created. Check your email to confirm your account, then sign in.';
-         mode(false);
-       }
-     }else{
-       const {data,error}=await sb.auth.signInWithPassword({email,password});
-       if(error) throw error;
-       await saveSession(data.user,'email');
-     }
-   }catch(err){
-     $('msg').textContent=err.message||'Authentication failed.';
-   }finally{
-     $('submit').disabled=false;
-     $('submit').textContent=signup?'CREATE ACCOUNT':'SIGN IN';
-   }
-   return;
- }
-
- let users=JSON.parse(localStorage.getItem('hh_users')||'{}');
- if(signup){
-   if(users[email])return $('msg').textContent='Account already exists in this browser.';
-   users[email]={password,name:$('name').value.trim()||'Viewer'};
-   localStorage.setItem('hh_users',JSON.stringify(users));
-   localStorage.setItem('hh_user',JSON.stringify({email,name:users[email].name,provider:'browser'}));
-   location.href='dashboard.html';
- }else{
-   if(!users[email]||users[email].password!==password)return $('msg').textContent='Incorrect email or password.';
-   localStorage.setItem('hh_user',JSON.stringify({email,name:users[email].name,provider:'browser'}));
-   location.href='dashboard.html';
- }
-};
-</script></body></html>
+e.preventDefault();
+const email=$('email').value.trim().toLowerCase(),password=$('password').value,name=$('name').value.trim()||'Viewer';
+if(sb){
+$('submit').disabled=true;
+const result=signup
+?await sb.auth.signUp({email,password,options:{data:{full_name:name},emailRedirectTo:location.origin+location.pathname}})
+:await sb.auth.signInWithPassword({email,password});
+if(result.error){$('msg').textContent=result.error.message;$('submit').disabled=false;return}
+if(signup&&!result.data.session){$('msg').style.color='#9cffb0';$('msg').textContent='Account created. Check your email to confirm, then sign in.';$('submit').disabled=false;return}
+const u=result.data.user;localStorage.setItem('hh_user',JSON.stringify({email:u.email,name:u.user_metadata?.full_name||u.user_metadata?.name||email.split('@')[0],provider:'supabase'}));location.href='dashboard.html';return;
+}
+let users=JSON.parse(localStorage.getItem('hh_users')||'{}');
+if(signup){if(users[email])return $('msg').textContent='Account already exists in this browser.';users[email]={password,name};localStorage.setItem('hh_users',JSON.stringify(users));localStorage.setItem('hh_user',JSON.stringify({email,name}));location.href='dashboard.html'}
+else{if(!users[email]||users[email].password!==password)return $('msg').textContent='Incorrect email or password.';localStorage.setItem('hh_user',JSON.stringify({email,name:users[email].name}));location.href='dashboard.html'}
+};</script></body></html>
