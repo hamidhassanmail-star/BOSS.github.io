@@ -14,7 +14,7 @@ async function init(){
      const name=u.user_metadata?.full_name||u.user_metadata?.name||u.email?.split('@')[0]||'Viewer';
      localStorage.setItem('hh_user',JSON.stringify({email:u.email,name,provider:'supabase'}));
      document.getElementById('welcome').textContent='Welcome, '+name+' 👑';
-     document.getElementById('account').textContent=u.email||'';
+     document.getElementById('account').innerHTML=(u.user_metadata?.avatar_url?'<img src="'+u.user_metadata.avatar_url+'" style="width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid #ffd700;vertical-align:middle;margin-right:10px">':'')+(u.email||'');
      return;
    }
    location.href='auth.html';
