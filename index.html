@@ -592,4 +592,13 @@ html,body{background:#050505!important;color:#fff!important}
 .fire-particle,.fire-spark,.fire-boss,.fire-boss:before,.fire-boss:after,.hero-real-flame,.flame-back,.flame-mid,.flame-front,.flame-core,.flame-tip,.fire-crown,.fire-bubble-word,#macFireTrail,#fireAtmosphere,#bossFireTextLayer,.logo-crown,.logo-falcon,.falcon-crown{display:none!important}
 .bubble{display:inline-flex!important;background:#0b0b0b!important;border:1px solid #9d7928!important;color:#d4af37!important;box-shadow:none!important}
 .realtime,.music-player{background:#090909!important;border-color:#d4af3766!important}
-</style></body></html>
+<style id="scroll-stability-fix">
+/* Keep all website content stable and visible while scrolling */
+html,body{min-height:100%;height:auto!important}
+body{overflow-x:hidden!important;overflow-y:auto!important}
+main{position:relative!important;z-index:1!important;display:block!important}
+main,.section,.hero,.box,.grid,.cards,.card,.video-grid,.video-card,.design,.map-box{visibility:visible!important;opacity:1!important;transform:none!important}
+.section{position:relative!important}
+.card,.value,.video-card{will-change:auto!important;contain:none!important;content-visibility:visible!important}
+img{visibility:visible!important}
+</style></style></body></html>
