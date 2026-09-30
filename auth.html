@@ -28,7 +28,7 @@ $('googleBtn').onclick=async()=>{
    return;
  }
  $('msg').textContent='Opening Google Sign-In…';
- const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});
+ const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:new URL('auth.html',location.href).href}});
  if(error) $('msg').textContent=error.message;
 };
 
@@ -44,7 +44,7 @@ const email=$('email').value.trim().toLowerCase(),password=$('password').value,n
 if(sb){
 $('submit').disabled=true;
 const result=signup
-?await sb.auth.signUp({email,password,options:{data:{full_name:name},emailRedirectTo:location.origin+location.pathname}})
+?await sb.auth.signUp({email,password,options:{data:{full_name:name},emailRedirectTo:new URL('auth.html',location.href).href}})
 :await sb.auth.signInWithPassword({email,password});
 if(result.error){$('msg').textContent=result.error.message;$('submit').disabled=false;return}
 if(signup&&!result.data.session){$('msg').style.color='#9cffb0';$('msg').textContent='Account created. Check your email to confirm, then sign in.';$('submit').disabled=false;return}
