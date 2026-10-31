@@ -190,3 +190,73 @@ html[data-theme="dark"] .latest-empty{background:#141d29;border-color:#80502f;co
 html[data-theme="dark"] .platform-stats{background:#141d29;border-color:#2b394b}
 html[data-theme="dark"] .platform-stats span{color:#aeb9c8}
 @media(max-width:760px){.platform-stats{margin:16px 17px 0;padding:12px;gap:6px}.platform-stats>div{padding:8px 5px;gap:6px;flex-direction:column;text-align:center;border-right:0}.platform-stats span{font-size:10px}}
+
+/* THE BOSS — 3D portrait display frame */
+.hero .photo{
+  position:relative!important;
+  isolation:isolate;
+  width:min(100%,350px)!important;
+  max-width:350px!important;
+  padding:11px!important;
+  border:1px solid rgba(255,255,255,.82)!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#fff 0%,#ffb16f 18%,#ed641f 52%,#7f321c 100%)!important;
+  box-shadow:
+    0 2px 0 #fff inset,
+    0 0 0 1px rgba(255,255,255,.25),
+    10px 10px 0 #8f431f,
+    18px 18px 0 #432b27,
+    24px 30px 38px rgba(0,0,0,.34),
+    0 18px 42px rgba(231,91,28,.2)!important;
+  border-radius:18px!important;
+  transform:perspective(1100px) rotateY(-4deg) rotateX(1deg);
+  transform-style:preserve-3d;
+}
+.hero .photo:before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:9px;
+  right:-19px;
+  bottom:-13px;
+  width:18px;
+  border-radius:0 12px 12px 0;
+  background:linear-gradient(180deg,#ffb77d,#a94720 55%,#542719);
+  transform:skewY(2deg);
+  box-shadow:8px 12px 18px rgba(0,0,0,.2);
+}
+.hero .photo:after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  left:14px;
+  right:14px;
+  top:13px;
+  height:3px;
+  border-radius:10px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent);
+  pointer-events:none;
+}
+.hero .photo img{
+  display:block!important;
+  width:100%!important;
+  aspect-ratio:4/5!important;
+  object-fit:cover!important;
+  object-position:center 38%!important;
+  border:3px solid rgba(255,255,255,.96)!important;
+  border-radius:10px!important;
+  background:#111923;
+  box-shadow:0 5px 18px rgba(0,0,0,.25),inset 0 0 0 1px rgba(255,255,255,.2);
+}
+@media(max-width:620px){
+  .hero .photo{
+    width:min(78vw,260px)!important;
+    max-width:260px!important;
+    align-self:center!important;
+    transform:perspective(900px) rotateY(-2deg)!important;
+    box-shadow:0 2px 0 #fff inset,0 0 0 1px rgba(255,255,255,.25),7px 7px 0 #8f431f,13px 14px 0 #432b27,18px 22px 28px rgba(0,0,0,.3)!important;
+  }
+  .hero .photo:before{right:-13px;width:12px;bottom:-10px}
+}
+@media(prefers-reduced-motion:reduce){.hero .photo{transform:none!important}}
+
