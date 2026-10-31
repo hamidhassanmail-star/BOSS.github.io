@@ -1,22 +1,90 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HAMID HASSAN BOSS | Posts</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Read the latest stories, creator updates and ideas from THE BOSS by Hamid Hassan.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#f26a21">
+<meta property="og:type" content="website">
+<meta property="og:title" content="THE BOSS Journal | Hamid Hassan">
+<meta property="og:description" content="Stories, updates and useful ideas from THE BOSS.">
+<link rel="canonical" href="https://hamidhassanmail-star.github.io/BOSS.github.io/posts.html">
+<link rel="icon" href="boss-favicon.svg" type="image/svg+xml">
+<title>THE BOSS Journal | Hamid Hassan</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="boss-theme.css?v=7">
 <style>
-:root{--pink:#ff2aa6;--purple:#7c4dff;--cyan:#00eaff;--gold:#ffd43b;--bg:#050713;--muted:#cbd5e1}*{box-sizing:border-box}body{margin:0;color:#fff;font-family:Arial,sans-serif;background:radial-gradient(circle at 10% 10%,#00eaff22,transparent 25%),radial-gradient(circle at 90% 20%,#ff2aa622,transparent 25%),linear-gradient(135deg,#050713,#17052a,#041d2b);min-height:100vh}header{position:sticky;top:0;z-index:10;background:#02030ded;backdrop-filter:blur(15px);border-bottom:1px solid #ffffff20;padding:16px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px}.logo{font-size:22px;font-weight:1000;letter-spacing:2px;background:linear-gradient(90deg,var(--cyan),#fff,var(--pink),var(--gold));-webkit-background-clip:text;color:transparent}.back{padding:11px 18px;border-radius:25px;background:linear-gradient(90deg,var(--pink),var(--purple));font-weight:900;text-decoration:none;color:#fff}.wrap{width:min(1180px,92%);margin:auto;padding:65px 0}.hero{text-align:center;margin-bottom:45px}.hero h1{font-size:clamp(42px,7vw,78px);margin:0 0 10px}.hero h1 span{background:linear-gradient(90deg,var(--gold),var(--pink),var(--cyan));-webkit-background-clip:text;color:transparent}.hero p{color:var(--muted);font-size:17px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.post{background:linear-gradient(145deg,#11182de8,#29103be8);border:1px solid #ffffff22;border-radius:25px;overflow:hidden;box-shadow:0 20px 55px #0008}.post img{width:100%;height:220px;object-fit:cover;display:block;background:#101827}.body{padding:20px}.body h2{margin:0 0 10px;font-size:24px}.body p{color:var(--muted);line-height:1.65;white-space:pre-wrap}.date{font-size:12px;color:var(--cyan);font-weight:800}.video{position:relative;padding-top:56.25%;margin-top:15px}.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:15px}.link{display:inline-block;margin-top:12px;color:var(--gold);font-weight:800}.empty,.error{padding:35px;text-align:center;border:1px dashed #ffffff35;border-radius:22px;color:var(--muted)}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){header{padding:13px 4%}.logo{font-size:16px}.wrap{padding:40px 0}.grid{grid-template-columns:1fr}.post img{height:210px}}
-</style></head>
+*{box-sizing:border-box}body{background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif}
+.journal-top{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px max(22px,calc((100vw - 1240px)/2));border-bottom:1px solid var(--line);background:#fffaf5}
+.journal-logo{font-weight:950;letter-spacing:2px;color:var(--ink)}.journal-logo span{color:var(--orange)}
+.journal-main{max-width:1240px;margin:auto;padding:58px 24px 90px}.journal-hero{padding:44px;border-radius:12px 52px 12px 12px;background:linear-gradient(120deg,#fff 0 66%,#ffead9 66%);border:1px solid var(--line)}
+.journal-hero .eyebrow{color:var(--orange-deep);font-size:11px;letter-spacing:2px;font-weight:950}
+.journal-hero h1{margin:14px 0;font-size:clamp(38px,7vw,72px);letter-spacing:-3px;line-height:1.02}.journal-hero h1 span{color:var(--orange)}
+.journal-hero p{max-width:720px;color:var(--muted);line-height:1.8}
+.journal-tools{display:flex;gap:12px;margin:30px 0 22px}.journal-tools input{flex:1;min-width:0;padding:14px 16px;border:1px solid #e8c9b4;border-radius:9px;background:#fff;color:#202733;font:inherit}
+.journal-feed{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.post-card{overflow:hidden;border:1px solid var(--line);border-radius:10px 24px 10px 10px;background:#fff;box-shadow:0 12px 32px #3b1c0b0a}
+.post-card img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#eee4dc}
+.post-body{padding:20px}.post-date{font-size:10px;color:var(--orange-deep);letter-spacing:1.4px;font-weight:950}
+.post-body h2{margin:10px 0;color:var(--ink);font-size:21px;line-height:1.35}.post-body p{color:#68717d;font-size:14px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
+.post-video{position:relative;padding-top:56.25%;margin-top:14px}.post-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:10px}
+.post-link{display:inline-flex;margin-top:12px;color:var(--orange-deep);font-weight:900;font-size:13px}
+.feed-message{grid-column:1/-1;padding:32px;border:1px dashed #e5b18f;border-radius:12px;background:#fffaf6;color:#68717d;text-align:center}
+.load-more{display:block;margin:28px auto 0}
+html[data-theme="dark"] body{background:var(--night);color:#eef2f7}
+html[data-theme="dark"] .journal-top{background:#101824;border-color:#283547}
+html[data-theme="dark"] .journal-logo{color:#f4f5f7}
+html[data-theme="dark"] .journal-hero,html[data-theme="dark"] .post-card{background:#171f2b;border-color:#2b394b}
+html[data-theme="dark"] .journal-hero h1,html[data-theme="dark"] .post-body h2{color:#f4f5f7}
+html[data-theme="dark"] .journal-hero p,html[data-theme="dark"] .post-body p{color:#aeb9c8}
+html[data-theme="dark"] .journal-tools input{background:#0e1621;border-color:#354456;color:#f4f6f8}
+html[data-theme="dark"] .feed-message{background:#141d29;border-color:#80502f;color:#aeb9c8}
+@media(max-width:900px){.journal-feed{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.journal-main{padding:28px 16px 60px}.journal-hero{padding:28px 20px;border-radius:10px 32px 10px 10px}.journal-feed{grid-template-columns:1fr}.journal-tools{flex-direction:column}.journal-top{padding:14px 16px}}
+</style>
+</head>
 <body>
-<header><a class="logo" href="index.html">HAMID HASSAN BOSS</a><a class="back" href="index.html">← Home</a></header>
-<main class="wrap"><div class="hero"><h1>Latest <span>Posts</span></h1><p>Photos, videos, stories, motivation and updates from HAMID HASSAN.</p></div><div id="feed" class="grid"><div class="empty">Loading posts…</div></div></main>
+<header class="journal-top"><a class="journal-logo" href="index.html">THE <span>BOSS</span></a><a class="btn" href="index.html">← BACK TO HOME</a></header>
+<main class="journal-main">
+<section class="journal-hero"><span class="eyebrow">THE BOSS JOURNAL</span><h1>Stories. Ideas.<br><span>New Perspectives.</span></h1><p>Discover creator updates, meaningful stories and useful ideas. Posts are published through a private, secure content dashboard.</p></section>
+<div class="journal-tools"><input id="postSearch" type="search" placeholder="Search journal posts…" aria-label="Search journal posts"><a class="btn" href="index.html#journal">LATEST ON HOME</a></div>
+<section class="journal-feed" id="feed" aria-live="polite"><div class="feed-message">Loading posts…</div></section>
+<button id="loadMore" class="btn load-more" type="button" hidden>LOAD MORE</button>
+</main>
+<footer class="footer">© 2026 <b>HAMID HASSAN | THE BOSS</b> — All Rights Reserved</footer>
 <script>
-const SUPABASE_URL='YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY='YOUR_SUPABASE_ANON_KEY';
-const feed=document.getElementById('feed');
-function ready(){return SUPABASE_URL.startsWith('https://')&&SUPABASE_ANON_KEY.length>20}
-function esc(v){return String(v??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\':'&#92;','"':'&quot;'}[c]))}
-function yt(url){try{let u=new URL(url);let id=u.searchParams.get('v');if(!id&&u.hostname.includes('youtu.be'))id=u.pathname.slice(1);if(!id&&u.pathname.includes('/shorts/'))id=u.pathname.split('/shorts/')[1].split('/')[0];return id?`https://www.youtube.com/embed/${encodeURIComponent(id)}`:''}catch{return ''}}
-async function load(){if(!ready()){feed.innerHTML='<div class="error" style="grid-column:1/-1">The posting system is installed, but Supabase is not connected yet. Add your Supabase URL and anon key in posts.html and admin.html.</div>';return}const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);const {data,error}=await sb.from('posts').select('*').eq('published',true).order('created_at',{ascending:false});if(error){feed.innerHTML='<div class="error" style="grid-column:1/-1">Could not load posts. Check the Supabase table and security policies.</div>';return}if(!data?.length){feed.innerHTML='<div class="empty" style="grid-column:1/-1">No published posts yet. Your admin dashboard can publish the first one.</div>';return}feed.innerHTML=data.map(p=>{const video=yt(p.youtube_url);return `<article class="post">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.title)}" loading="lazy">`:''}<div class="body"><div class="date">${new Date(p.created_at).toLocaleDateString()}</div><h2>${esc(p.title)}</h2>${p.description?`<p>${esc(p.description)}</p>`:''}${video?`<div class="video"><iframe src="${video}" title="${esc(p.title)}" loading="lazy" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen></iframe></div>`:''}${p.link_url?`<a class="link" href="${esc(p.link_url)}" target="_blank" rel="noopener">🔗 Open link</a>`:''}</div></article>`}).join('')}
-load();
-</script></body></html>
+(function(){
+ const URL='https://kjeqoobfuaspwcbcoxuu.supabase.co';
+ const KEY='sb_publishable_j8Au2s35gx0DV5mBLP046w_oAgnvth4';
+ const client=window.supabase.createClient(URL,KEY);
+ const feed=document.getElementById('feed'),more=document.getElementById('loadMore'),search=document.getElementById('postSearch');
+ const pageSize=18;let offset=0,allPosts=[],busy=false,finished=false;
+ function safeUrl(value){try{const u=new URL(value);return u.protocol==='https:'?u.href:''}catch(_){return ''}}
+ function ytId(value){try{const u=new URL(value);let id='';if(u.hostname==='youtu.be')id=u.pathname.slice(1);else if(['youtube.com','www.youtube.com','m.youtube.com'].includes(u.hostname)){id=u.searchParams.get('v')||((u.pathname.match(/^\/(?:shorts|live|embed)\/([^/]+)/)||[])[1]||'')}return /^[A-Za-z0-9_-]{11}$/.test(id)?id:''}catch(_){return ''}}
+ function showMessage(message){const box=document.createElement('div');box.className='feed-message';box.textContent=message;feed.replaceChildren(box)}
+ function buildCard(post){
+  const article=document.createElement('article');article.className='post-card';
+  const imageUrl=safeUrl(post.image_url)||(ytId(post.youtube_url)?'https://i.ytimg.com/vi/'+ytId(post.youtube_url)+'/hqdefault.jpg':'');
+  if(imageUrl){const img=document.createElement('img');img.src=imageUrl;img.alt=post.title||'Post image';img.loading='lazy';img.decoding='async';article.appendChild(img)}
+  const body=document.createElement('div');body.className='post-body';
+  const date=document.createElement('div');date.className='post-date';date.textContent=post.created_at?new Date(post.created_at).toLocaleDateString('en-LK',{year:'numeric',month:'short',day:'numeric'}):'THE BOSS JOURNAL';
+  const title=document.createElement('h2');title.textContent=post.title||'Untitled post';
+  const description=document.createElement('p');description.textContent=post.description||'';
+  body.append(date,title,description);
+  const id=ytId(post.youtube_url);
+  if(id){const wrap=document.createElement('div');wrap.className='post-video';const iframe=document.createElement('iframe');iframe.src='https://www.youtube-nocookie.com/embed/'+id;iframe.title=post.title||'YouTube video';iframe.loading='lazy';iframe.referrerPolicy='strict-origin-when-cross-origin';iframe.allow='accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share';iframe.allowFullscreen=true;wrap.appendChild(iframe);body.appendChild(wrap)}
+  const link=safeUrl(post.link_url);
+  if(link){const a=document.createElement('a');a.className='post-link';a.href=link;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Open related link ↗';body.appendChild(a)}
+  article.appendChild(body);return article;
+ }
+ function render(){const q=search.value.trim().toLocaleLowerCase();const filtered=allPosts.filter(p=>(p.title+' '+(p.description||'')).toLocaleLowerCase().includes(q));feed.replaceChildren();if(!filtered.length){showMessage(q?'No posts match this search.':'No published posts yet. Please check back soon.');return}filtered.forEach(p=>feed.appendChild(buildCard(p)))}
+ async function load(){if(busy||finished)return;busy=true;more.disabled=true;more.hidden=false;more.textContent='LOADING…';
+  const {data,error}=await client.from('posts').select('id,title,description,image_url,youtube_url,link_url,created_at').eq('published',true).order('created_at',{ascending:false}).range(offset,offset+pageSize-1);
+  if(error){showMessage('The journal is temporarily unavailable. Please try again later.');more.hidden=true;busy=false;return}
+  const batch=data||[];allPosts=allPosts.concat(batch);offset+=batch.length;finished=batch.length<pageSize;render();more.hidden=finished;more.disabled=false;more.textContent='LOAD MORE';busy=false;
+ }
+ search.addEventListener('input',render);more.addEventListener('click',load);load();
+})();
+</script>
+</body></html>
