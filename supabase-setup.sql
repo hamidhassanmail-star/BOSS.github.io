@@ -7,7 +7,7 @@ create table if not exists public.posts (
   title text not null check (char_length(btrim(title)) between 1 and 120),
   description text not null default '' check (char_length(description) <= 2000),
   image_url text check (image_url is null or image_url ~* '^https://'),
-  youtube_url text check (youtube_url is null or youtube_url ~* '^https://(www\\.)?(youtube\\.com|youtu\\.be)/'),
+  youtube_url text check (youtube_url is null or youtube_url ~* '^https://(www\.)?(youtube\.com|youtu\.be)/'),
   link_url text check (link_url is null or link_url ~* '^https://'),
   published boolean not null default true,
   created_at timestamptz not null default now()
