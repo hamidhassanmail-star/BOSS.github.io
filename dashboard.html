@@ -1,33 +1,54 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HAMID HASSAN • Dashboard</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>body{margin:0;font-family:Arial;background:#05050b;color:#fff}.nav{padding:18px 6%;display:flex;justify-content:space-between;align-items:center;background:#0a0913;border-bottom:1px solid #ffd70066}.logo{font-size:24px;font-weight:900;color:#ffd700}.logout{padding:10px 18px;border:1px solid #ffd700;border-radius:20px;background:transparent;color:#ffd700;cursor:pointer}.wrap{max-width:1200px;margin:auto;padding:45px 6%}.hero{padding:30px;border-radius:25px;background:linear-gradient(135deg,#ff260022,#ffd00018,#7c4dff22);border:1px solid #ffd70044}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:25px}.card{padding:24px;border-radius:22px;background:#11101c;border:1px solid #ffffff18}.card h2{color:#ffd700}.card button{padding:11px 15px;border:0;border-radius:15px;background:linear-gradient(90deg,#ff2600,#ffd000);font-weight:900;cursor:pointer}input{width:100%;padding:12px;margin:7px 0;box-sizing:border-box;background:#080812;border:1px solid #ffffff22;border-radius:10px;color:white}@media(max-width:750px){.grid{grid-template-columns:1fr}}</style><link rel="stylesheet" href="boss-theme.css?v=3"></head><body><nav class="nav"><div class="logo">👑 HAMID HASSAN • DASHBOARD</div><button class="logout" onclick="logout()">Sign Out</button></nav><main class="wrap"><section class="hero"><h1 id="welcome">Welcome!</h1><p>Manage your website content from here.</p></section><div class="grid"><div class="card"><h2>📺 Videos</h2><p>Add or update video links.</p><input placeholder="YouTube video URL"><button onclick="alert('Video form ready — connect a database/backend to save it online.')">Add Video</button></div><div class="card"><h2>📚 Playlists</h2><p>Add playlist links.</p><input placeholder="Playlist URL"><button onclick="alert('Playlist form ready — connect a database/backend to save it online.')">Add Playlist</button></div><div class="card"><h2>🖼️ Images</h2><p>Manage image links.</p><input placeholder="Image URL"><button onclick="alert('Image form ready — connect a database/backend to save it online.')">Add Image</button></div><div class="card"><h2>🔗 Links</h2><p>Add useful hyperlinks.</p><input placeholder="Link URL"><button onclick="alert('Link form ready — connect a database/backend to save it online.')">Add Link</button></div><div class="card"><h2>⚙️ Account</h2><p id="account"></p><button onclick="location.href='index.html'">View Website</button></div></div></main><script>
-const SUPABASE_URL='https://kjeqoobfuaspwcbcoxuu.supabase.co';
-const SUPABASE_ANON_KEY='sb_publishable_j8Au2s35gx0DV5mBLP046w_oAgnvth4';
-const configured=SUPABASE_URL.startsWith('https://')&&SUPABASE_ANON_KEY.length>20;
-const user=JSON.parse(localStorage.getItem('hh_user')||'null');
-let sb=null;
-
-async function init(){
- if(configured){
-   sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-   const {data}=await sb.auth.getSession();
-   if(data.session){
-     const u=data.session.user;
-     const name=u.user_metadata?.full_name||u.user_metadata?.name||u.email?.split('@')[0]||'Viewer';
-     localStorage.setItem('hh_user',JSON.stringify({email:u.email,name,provider:'supabase'}));
-     document.getElementById('welcome').textContent='Welcome, '+name+' 👑';
-     document.getElementById('account').innerHTML=(u.user_metadata?.avatar_url?'<img src="'+u.user_metadata.avatar_url+'" style="width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid #ffd700;vertical-align:middle;margin-right:10px">':'')+(u.email||'');
-     return;
-   }
-   location.href='auth.html';
-   return;
- }
- if(!user){location.href='auth.html';return}
- document.getElementById('welcome').textContent='Welcome, '+(user.name||'Viewer')+' 👑';
- document.getElementById('account').textContent=user.email||'';
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>THE BOSS • Content Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><link rel="stylesheet" href="boss-theme.css?v=7">
+<style>
+:root{color-scheme:dark}body{margin:0;background:#090a0f;color:#f7f4ee;font-family:Inter,Arial,sans-serif}.top{display:flex;justify-content:space-between;align-items:center;padding:18px 5%;border-bottom:1px solid #f28a3b55;background:#101116}.brand{font-weight:900;letter-spacing:2px;color:#ffad59;font-size:20px}.btn,button{border:0;border-radius:10px;padding:11px 16px;font-weight:800;cursor:pointer;background:linear-gradient(110deg,#f26a21,#ffad45);color:#17100a}.outline{background:transparent;border:1px solid #f28a3b;color:#ffb66d}.wrap{max-width:1100px;margin:34px auto;padding:0 18px}.hero,.panel{background:#14161d;border:1px solid #ffffff18;border-radius:18px;padding:22px;margin-bottom:20px}.hero h1{margin:0 0 8px;color:#ffb66d}.muted{color:#b8bac3}.status{padding:12px 14px;border-radius:10px;background:#24202a;color:#ffd3a8;margin:14px 0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;font-size:13px;color:#ffbd7c;margin:6px 0}input,textarea{width:100%;box-sizing:border-box;padding:12px;border-radius:9px;border:1px solid #ffffff25;background:#0c0e13;color:white;font:inherit}textarea{min-height:85px;resize:vertical}.wide{grid-column:1/-1}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.post{border-top:1px solid #ffffff18;padding:16px 0;display:flex;justify-content:space-between;gap:15px}.post h3{margin:0 0 5px}.post p{margin:4px 0;color:#b8bac3;overflow-wrap:anywhere}.post-actions{display:flex;gap:8px;align-items:center}.post-actions button{padding:8px 12px}.danger{background:#4a2020;color:#ffd8d8;border:1px solid #a54b4b}.hide{display:none!important}@media(max-width:650px){.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}.post{display:block}.post-actions{margin-top:10px}}
+</style></head><body>
+<header class="top"><div class="brand">THE BOSS · ADMIN</div><div class="actions"><a class="btn outline" href="index.html">View website</a><button id="logout" class="outline">Sign out</button></div></header>
+<main class="wrap"><section class="hero"><h1 id="welcome">Content dashboard</h1><p class="muted">Publish and manage updates on THE BOSS website. Existing playlists and videos remain untouched.</p><div id="status" class="status" role="status">Checking secure account…</div><div class="muted" id="account"></div></section>
+<section id="editor" class="panel hide"><h2 id="formTitle">Add a post</h2><form id="postForm"><input type="hidden" id="postId"><div class="formgrid">
+<div><label for="title">Title *</label><input id="title" maxlength="120" required></div>
+<div><label for="image">Image URL</label><input id="image" type="url" placeholder="https://…"></div>
+<div class="wide"><label for="description">Description</label><textarea id="description" maxlength="2000"></textarea></div>
+<div><label for="youtube">YouTube URL</label><input id="youtube" type="url" placeholder="https://youtube.com/…"></div>
+<div><label for="link">Other link</label><input id="link" type="url" placeholder="https://…"></div>
+</div><div class="actions"><button class="btn" id="saveBtn" type="submit">Publish post</button><button class="btn outline" type="button" id="cancelEdit">Clear</button></div></form></section>
+<section id="postsPanel" class="panel hide"><h2>Published and draft posts</h2><div id="postsList" class="muted">Loading…</div></section>
+<section class="panel"><h2>Security & setup</h2><p class="muted">Only the configured administrator account can manage posts. Database row-level security must also be enabled. This dashboard never stores passwords in the browser.</p></section>
+</main><script>
+const URL='https://kjeqoobfuaspwcbcoxuu.supabase.co';
+const KEY='sb_publishable_j8Au2s35gx0DV5mBLP046w_oAgnvth4';
+const ADMIN='hamidhassanmail@gmail.com';
+const sb=window.supabase.createClient(URL,KEY);
+const $=id=>document.getElementById(id);
+let rows=[];
+function message(t){$('status').textContent=t}
+function resetForm(){$('postForm').reset();$('postId').value='';$('formTitle').textContent='Add a post';$('saveBtn').textContent='Publish post'}
+function safeUrl(v){try{const u=new URL(v);return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return ''}}
+async function loadPosts(){
+ message('Connected. Loading posts…');
+ const {data,error}=await sb.from('posts').select('id,title,description,image_url,youtube_url,link_url,published,created_at').order('created_at',{ascending:false});
+ if(error){message('The posts table is not ready or access is blocked. Check the repository file supabase-setup.sql and apply its setup in Supabase SQL Editor. Details: '+error.message);return}
+ rows=data||[];$('postsList').replaceChildren();
+ if(!rows.length){$('postsList').textContent='No posts yet. Add your first update above.';return}
+ rows.forEach(p=>{
+  const item=document.createElement('article');item.className='post';
+  const info=document.createElement('div');const h=document.createElement('h3');h.textContent=p.title||'Untitled';const desc=document.createElement('p');desc.textContent=p.description||'No description';const state=document.createElement('p');state.textContent=p.published?'Published':'Draft';info.append(h,desc,state);
+  const actions=document.createElement('div');actions.className='post-actions';
+  const edit=document.createElement('button');edit.className='outline';edit.textContent='Edit';edit.onclick=()=>editPost(p);
+  const del=document.createElement('button');del.className='danger';del.textContent='Delete';del.onclick=()=>deletePost(p.id);
+  actions.append(edit,del);item.append(info,actions);$('postsList').append(item);
+ });
+ message('Ready. '+rows.length+' post(s) loaded.');
 }
-async function logout(){
- if(sb) await sb.auth.signOut();
- localStorage.removeItem('hh_user');
- location.href='auth.html';
-}
-init();
+function editPost(p){$('postId').value=p.id;$('title').value=p.title||'';$('description').value=p.description||'';$('image').value=p.image_url||'';$('youtube').value=p.youtube_url||'';$('link').value=p.link_url||'';$('formTitle').textContent='Edit post';$('saveBtn').textContent='Save changes';window.scrollTo({top:0,behavior:'smooth'})}
+async function deletePost(id){if(!confirm('Delete this post? This cannot be undone.'))return;const {error}=await sb.from('posts').delete().eq('id',id);if(error){message('Delete failed: '+error.message);return}await loadPosts()}
+$('postForm').onsubmit=async e=>{e.preventDefault();const payload={title:$('title').value.trim(),description:$('description').value.trim(),image_url:safeUrl($('image').value.trim())||null,youtube_url:safeUrl($('youtube').value.trim())||null,link_url:safeUrl($('link').value.trim())||null,published:true};if(!payload.title)return;
+ $('saveBtn').disabled=true;const id=$('postId').value;const result=id?await sb.from('posts').update(payload).eq('id',id):await sb.from('posts').insert(payload);$('saveBtn').disabled=false;
+ if(result.error){message('Save failed: '+result.error.message);return}resetForm();await loadPosts();
+};
+$('cancelEdit').onclick=resetForm;
+$('logout').onclick=async()=>{await sb.auth.signOut();location.href='auth.html'};
+(async()=>{const {data,error}=await sb.auth.getSession();if(error||!data.session){location.replace('auth.html');return}const u=data.session.user;if((u.email||'').toLowerCase()!==ADMIN){message('Access denied. This account is not the configured administrator.');$('welcome').textContent='Administrator access only';await sb.auth.signOut();return}
+$('welcome').textContent='Welcome, '+(u.user_metadata?.full_name||u.email)+' 👑';$('account').textContent=u.email;$('editor').classList.remove('hide');$('postsPanel').classList.remove('hide');await loadPosts()})();
 </script></body></html>
