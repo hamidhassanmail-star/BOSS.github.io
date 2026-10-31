@@ -19,7 +19,7 @@ $('suTab').onclick=()=>mode(true);
 async function saveSession(u,provider){
  const name=u.user_metadata?.full_name||u.user_metadata?.name||$('name').value.trim()||u.email?.split('@')[0]||'Viewer';
  localStorage.setItem('hh_user',JSON.stringify({email:u.email,name,provider:provider||'supabase'}));
- location.href='dashboard.html';
+ location.href=(u.email||'').toLowerCase()==='hamidhassanmail@gmail.com'?'dashboard.html':'index.html';
 }
 
 $('googleBtn').onclick=async()=>{
@@ -44,6 +44,6 @@ let result; try { result=signup
 :await sb.auth.signInWithPassword({email,password}); } catch { $('msg').textContent='Could not connect. Please try again later.';$('submit').disabled=false;return; }
 if(result.error){$('msg').textContent=result.error.message;$('submit').disabled=false;return}
 if(signup&&!result.data.session){$('msg').style.color='#9cffb0';$('msg').textContent='Account created. Check your email to confirm, then sign in.';$('submit').disabled=false;return}
-const u=result.data.user;localStorage.setItem('hh_user',JSON.stringify({email:u.email,name:u.user_metadata?.full_name||u.user_metadata?.name||email.split('@')[0],provider:'supabase'}));location.href='dashboard.html';return;
+const u=result.data.user;localStorage.setItem('hh_user',JSON.stringify({email:u.email,name:u.user_metadata?.full_name||u.user_metadata?.name||email.split('@')[0],provider:'supabase'}));location.href=(u.email||'').toLowerCase()==='hamidhassanmail@gmail.com'?'dashboard.html':'index.html';return;
 }
 };</script></body></html>
