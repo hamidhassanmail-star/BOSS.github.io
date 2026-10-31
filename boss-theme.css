@@ -260,3 +260,54 @@ html[data-theme="dark"] .platform-stats span{color:#aeb9c8}
 }
 @media(prefers-reduced-motion:reduce){.hero .photo{transform:none!important}}
 
+/* FINAL OVERRIDE: replace the portrait arch with a true rectangular 3D box */
+.hero .photo{
+  width:min(100%,350px)!important;
+  max-width:350px!important;
+  aspect-ratio:4/5;
+  padding:10px!important;
+  border-radius:4px!important;
+  background:linear-gradient(135deg,#fff 0%,#ffb16f 12%,#f26a21 48%,#8c3b1d 100%)!important;
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,.92),
+    8px 8px 0 #b94d20,
+    16px 16px 0 #542d23,
+    22px 24px 32px rgba(0,0,0,.38)!important;
+  transform:perspective(1000px) rotateY(-3deg)!important;
+}
+.hero .photo:before{
+  top:4px!important;
+  right:-17px!important;
+  bottom:-11px!important;
+  width:16px!important;
+  border-radius:0 3px 3px 0!important;
+  background:linear-gradient(180deg,#ffc18f,#e96b2a 45%,#71331e)!important;
+  transform:skewY(0deg)!important;
+}
+.hero .photo:after{
+  left:10px!important;
+  right:10px!important;
+  top:10px!important;
+  height:2px!important;
+}
+.hero .photo img{
+  width:100%!important;
+  height:100%!important;
+  aspect-ratio:auto!important;
+  object-fit:cover!important;
+  border:3px solid #fff!important;
+  border-radius:2px!important;
+  object-position:center center!important;
+}
+@media(max-width:620px){
+  .hero .photo{
+    width:min(76vw,260px)!important;
+    max-width:260px!important;
+    aspect-ratio:4/5!important;
+    align-self:center!important;
+    transform:perspective(900px) rotateY(-2deg)!important;
+    box-shadow:0 0 0 2px rgba(255,255,255,.92),6px 6px 0 #b94d20,12px 12px 0 #542d23,17px 20px 25px rgba(0,0,0,.34)!important;
+  }
+  .hero .photo:before{right:-13px!important;width:12px!important;bottom:-9px!important}
+}
+
