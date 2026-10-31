@@ -24,7 +24,7 @@ const $=id=>document.getElementById(id);
 let rows=[];
 function message(t){$('status').textContent=t}
 function resetForm(){$('postForm').reset();$('postId').value='';$('formTitle').textContent='Add a post';$('saveBtn').textContent='Publish post'}
-function safeUrl(v){try{const u=new URL(v);return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return ''}}
+function safeUrl(v){try{const u=new URL(v);return u.protocol==='https:'?u.href:''}catch{return ''}}
 async function loadPosts(){
  message('Connected. Loading posts…');
  const {data,error}=await sb.from('posts').select('id,title,description,image_url,youtube_url,link_url,published,created_at').order('created_at',{ascending:false});
